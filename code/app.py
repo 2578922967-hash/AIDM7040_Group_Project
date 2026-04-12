@@ -49,7 +49,7 @@ def call_hkbu_api(system_prompt: str, user_message: str, api_key: str = None, mo
             {"role": "user", "content": user_message}
         ],
         "temperature": temperature,
-        "max_tokens": 2000,
+        "max_tokens": 6000,
         "top_p": 0.95
     }
     
@@ -60,14 +60,29 @@ def call_hkbu_api(system_prompt: str, user_message: str, api_key: str = None, mo
         raise Exception(f"API Error {resp.status_code}: {resp.text}")
 
 def parse_json_response(raw_text: str):
-    cleaned = raw_text.strip()
-    if cleaned.startswith("```json"):
-        cleaned = cleaned[7:]
-    if cleaned.startswith("```"):
-        cleaned = cleaned[3:]
-    if cleaned.endswith("```"):
-        cleaned = cleaned[:-3]
-    return json.loads(cleaned.strip(), strict=False)
+    import json
+    import re
+    
+    md_match = re.search(r'```(?:json)?\s*(\{.*?\})\s*```', raw_text, re.DOTALL | re.IGNORECASE)
+    if md_match:
+        try:
+            return json.loads(md_match.group(1), strict=False)
+        except:
+            pass
+
+    cleaned = re.sub(r'<think>.*?</think>', '', raw_text, flags=re.DOTALL)
+    
+    start_idx = cleaned.find('{')
+    end_idx = cleaned.rfind('}')
+    
+    if start_idx != -1 and end_idx != -1 and end_idx >= start_idx:
+        json_str = cleaned[start_idx:end_idx+1]
+        try:
+            return json.loads(json_str, strict=False)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"JSON Parse Error: {str(e)} | Extracted Text: {json_str[:150]}")
+            
+    raise ValueError("未能在大模型回复中获取有效的 JSON({...}) 结构")
 
 # ================================
 # UI 界面部分 (原 web_demo.py)

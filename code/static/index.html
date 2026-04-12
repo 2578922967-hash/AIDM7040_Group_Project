@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CURATOR AI - 掌控对话的艺术</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+</head>
+<body>
+    <!-- 装饰性背景光效 -->
+    <div class="bg-blur blur-green"></div>
+    <div class="bg-blur blur-tan"></div>
+    
+    <!-- 登录/配置视图 -->
+    <div id="login-view" class="view-container active" style="flex-direction: row; padding: 0;">
+        <div style="flex: 1; display: flex; align-items: center; justify-content: center; z-index: 5;">
+            <div class="login-card">
+                <h2 style="font-family: 'Inter', sans-serif;" data-i18n="login_title">会话设置</h2>
+                <p class="subtitle" data-i18n="login_sub">配置你的环境以开启高情商对话</p>
+                
+                <div class="form-group">
+                    <label data-i18n="login_api_lbl">API KEY</label>
+                    <input type="password" id="api-key-input" data-i18n="login_api_pl" placeholder="请输入您的 API 密钥">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="login_model_lbl">SELECT LARGE MODEL</label>
+                    <select id="model-select" class="dark-input">
+                        <option value="gpt-4.1">GPT-4.1 (Default)</option>
+                        <option value="gpt-4.1-mini">GPT-4.1 Mini</option>
+                        <option value="gpt-5">GPT-5</option>
+                        <option value="o1">o1</option>
+                        <option value="deepseek-v3">DeepSeek V3</option>
+                        <option value="deepseek-r1">DeepSeek R1</option>
+                        <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                    </select>
+                </div>
+
+                <button class="primary-btn" id="start-session-btn" data-i18n="login_btn">进入策展引擎</button>
+                <p class="help-text" data-i18n="login_help">需要帮助寻找密钥？ 查看文档</p>
+            </div>
+            
+            <div class="footer">
+                <span data-i18n="login_footer">© 2026 CURATOR AI. 始于克制，成于意图。</span>
+            </div>
+        </div>
+        <!-- 侧边栏装饰 -->
+        <div style="width: 320px; height: 100vh; background: #1C1B1B; position: absolute; right: 0; top: 0; opacity: 0.3;">
+            <div style="background: linear-gradient(270deg, rgba(14, 14, 14, 0) 0%, rgba(14, 14, 14, 0.8) 50%, #0E0E0E 100%); width: 100%; height: 100%;"></div>
+        </div>
+    </div>
+
+    <!-- 主界面视图 -->
+    <div id="main-view" class="view-container hidden has-sidenav">
+        <!-- 侧边导航栏 SideNavBar -->
+        <aside class="sidenavbar">
+            <div class="logo-section">
+                <div class="logo-icon-bg">
+                    <div class="logo-icon-inner">
+                        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1; color: var(--accent-green);">auto_awesome</span>
+                    </div>
+                </div>
+                <div class="logo-text">
+                    <h1>The Curator</h1>
+                    <p>Intelligence</p>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a class="nav-item tab-btn active" data-target="instant-reply">
+                    <span class="material-symbols-outlined nav-icon" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+                    <span class="nav-label" data-i18n="nav_reply">即时高情商回复</span>
+                </a>
+                <a class="nav-item tab-btn" data-target="sandbox">
+                    <span class="material-symbols-outlined nav-icon">account_tree</span>
+                    <span class="nav-label" data-i18n="nav_sandbox">深度沙盘演推</span>
+                </a>
+            </nav>
+            
+            <div class="nav-footer">
+                <a class="nav-item tab-btn" data-target="settings">
+                    <span class="material-symbols-outlined nav-icon">settings</span>
+                    <span class="nav-label" data-i18n="nav_setting">SETTING</span>
+                </a>
+                <a class="nav-item tab-btn" data-target="support">
+                    <span class="material-symbols-outlined nav-icon">help</span>
+                    <span class="nav-label" data-i18n="nav_support">SUPPORT</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- 主内容区 Main Content -->
+        <div class="main-content-area">
+            <header class="app-header">
+                <div>
+                    <h1 id="header-title">即时高情商回复</h1>
+                    <p id="header-subtitle">通过AI语义引擎精准分析对话语境，为您提供体面且极具张力的社交回应方案。</p>
+                </div>
+            </header>
+
+            <main class="app-content">
+            <!-- TAB 1: 即时高情商回复 -->
+            <div id="instant-reply" class="tab-content active">
+                <div class="left-panel">
+                    <div class="step-card" style="display: flex; flex-direction: column; gap: 20px;">
+                        <div>
+                            <label style="color: var(--text-sec);" data-i18n="lbl_in_ctx">INPUT CONTEXT | 上下文</label>
+                            <textarea id="reply-message" data-i18n="pl_recv_msg" placeholder="在此粘贴您收到的消息..." style="margin-top: 8px;"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label style="color: var(--text-sec);" data-i18n="lbl_in_scenario">DIALOGUE SCENARIO | 场景补充（选填）</label>
+                            <input type="text" id="reply-context" data-i18n="pl_scenario" placeholder="例如：这是公司群聊 / 她是我相亲对象" class="dark-input" style="margin-top: 8px;">
+                        </div>
+
+                        <div>
+                            <label style="color: var(--text-sec);" data-i18n="lbl_tone">TONE PREFERENCE | 语气偏好</label>
+                            <select id="reply-tone" class="dark-input" style="margin-top: 8px;">
+                                <option value="专业严谨">预设：专业严谨 / Professional</option>
+                                <option value="温和委婉">预设：温和委婉 / Tactful</option>
+                                <option value="真诚坦率">预设：真诚坦率 / Sincere</option>
+                                <option value="机智幽默">预设：机智幽默 / Witty</option>
+                                <option value="不卑不亢">预设：不卑不亢 / Assertive</option>
+                                <option value="阴阳怪气" style="color:#ffb4ab;">火力全开：阴阳怪气 / Sarcastic</option>
+                                <option value="custom" disabled>自定义微调 / Custom</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Tone Nuance Sliders -->
+                        <div style="margin-top: 8px; padding-top: 24px; border-top: 1px dashed var(--border-color);">
+                            <h4 style="color: var(--text-sec); margin-bottom: 24px; font-style: italic; font-family: 'Newsreader', serif; letter-spacing: 0.05em;" data-i18n="lbl_tone_nuance">Tone Nuance / 语气微调</h4>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: x 24px; row-gap: 20px; column-gap: 40px;">
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                                        <span style="color: var(--text-sec); font-size: 13px;" data-i18n="tone_wit">机智 (Wit)</span>
+                                        <span id="val-wit" style="color: var(--accent-green); font-size: 13px;">65%</span>
+                                    </div>
+                                    <input type="range" id="tone-wit" min="0" max="100" value="65" class="nuance-slider">
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                                        <span style="color: var(--text-sec); font-size: 13px;" data-i18n="tone_diplomacy">外交 (Diplomacy)</span>
+                                        <span id="val-diplomacy" style="color: var(--accent-green); font-size: 13px;">80%</span>
+                                    </div>
+                                    <input type="range" id="tone-diplomacy" min="0" max="100" value="80" class="nuance-slider">
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                                        <span style="color: var(--text-sec); font-size: 13px;" data-i18n="tone_directness">直率 (Directness)</span>
+                                        <span id="val-directness" style="color: var(--accent-green); font-size: 13px;">30%</span>
+                                    </div>
+                                    <input type="range" id="tone-directness" min="0" max="100" value="30" class="nuance-slider">
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                                        <span style="color: var(--text-sec); font-size: 13px;" data-i18n="tone_empathy">共情 (Empathy)</span>
+                                        <span id="val-empathy" style="color: var(--accent-green); font-size: 13px;">90%</span>
+                                    </div>
+                                    <input type="range" id="tone-empathy" min="0" max="100" value="90" class="nuance-slider">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="primary-btn submit-btn" id="generate-reply-btn" data-i18n="btn_gen_reply">✨ 生成高情商回复 | GENERATE</button>
+                </div>
+
+                <!-- 结果展示区 -->
+                <div class="right-panel">
+                    <div id="reply-results" class="results-area hidden">
+                        <h3 data-i18n="result_ai_analyze">AI 分析与破局思路</h3>
+                        <p id="reply-explanation" style="color: var(--text-sec); line-height: 1.6;"></p>
+                        <div class="reply-options">
+                            <div class="reply-box">
+                                <h4>方案 A</h4>
+                                <p id="reply-opt-1"></p>
+                            </div>
+                            <div class="reply-box">
+                                <h4>方案 B</h4>
+                                <p id="reply-opt-2"></p>
+                            </div>
+                            <div class="reply-box">
+                                <h4>方案 C</h4>
+                                <p id="reply-opt-3"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 历史反馈面板 (Recent Reflections) -->
+                <div id="recent-reflections-container" style="width: 100%; border-top: 1px solid var(--border-color); padding-top: 32px; display: none;">
+                    <h4 style="color: var(--text-sec); letter-spacing: 0.15em; font-size: 11px; font-weight: normal; margin-bottom: 24px; text-transform: uppercase;">
+                        RECENT REFLECTIONS / <span style="opacity: 0.7;">最近的思考</span>
+                    </h4>
+                    <div class="history-container-scroll" id="history-scroll-area">
+                        <!-- JS将会渲染历史卡片在这里 -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- TAB 2: 沙盘推算 -->
+            <div id="sandbox" class="tab-content hidden">
+                <div class="left-panel">
+                    <div class="step-card" style="display: flex; flex-direction: column; gap: 20px;">
+                        
+                        <div>
+                            <label style="color: var(--text-sec);" data-i18n="lbl_sb_desc">SCENARIO DESCRIPTION | 场景事件描述</label>
+                            <textarea id="sb-scenario" data-i18n="pl_sb_desc" placeholder="描述发生的具体事件背景..." style="margin-top: 8px;"></textarea>
+                        </div>
+
+                        <div class="role-inputs">
+                            <div class="half-width">
+                                <label style="color: var(--text-sec);" data-i18n="lbl_sb_my_role">MY ROLE | 我的角色</label>
+                                <input type="text" id="sb-my-role" data-i18n="pl_sb_my_role" placeholder="你在此场景下的身份" style="margin-top: 8px;">
+                            </div>
+                            <div class="half-width">
+                                <label style="color: var(--text-sec);" data-i18n="lbl_sb_target_role">OPPONENT ROLE | 对方角色</label>
+                                <input type="text" id="sb-target-role" data-i18n="pl_sb_target_role" placeholder="对方的性格与身份" style="margin-top: 8px;">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label style="color: var(--text-sec);" data-i18n="lbl_sb_my_plan">MY INITIAL RESPONSE | 我的拟定应对方案</label>
+                            <textarea id="sb-my-plan" data-i18n="pl_sb_my_plan" placeholder="输入你最直观想说的话或方案..." style="margin-top: 8px;"></textarea>
+                        </div>
+
+                    </div>
+                    <button class="primary-btn submit-btn" id="run-sandbox-btn" data-i18n="btn_start_sim">🔮 启动大师沙盘推演 | START SIMULATION</button>
+                </div>
+
+                <!-- 结果展示区 -->
+                <div class="right-panel">
+                    <div id="sandbox-results" class="results-area hidden">
+                         <h3 style="color: var(--text-primary); margin-bottom: 20px;" data-i18n="result_sb_analyze">推演结果分析</h3>
+                         <!-- JS将渲染在此 -->
+                         <div id="sandbox-content"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- TAB 3: 设置 (Settings) -->
+            <div id="settings" class="tab-content hidden">
+                <div class="left-panel">
+                    <div class="step-card" style="display: flex; flex-direction: column; gap: 20px;">
+                        <h3 style="margin-bottom: 10px; font-weight: 500; font-size: 20px;" data-i18n="set_engine_cfg">引擎配置 / Engine Configuration</h3>
+                        
+                        <div>
+                            <label style="color: var(--text-sec);" data-i18n="lbl_api_key">API KEY | 访问密钥</label>
+                            <div style="display: flex; gap: 12px; align-items: center; margin-top: 8px;">
+                                <input type="password" id="settings-api-key" placeholder="sk-..." class="dark-input" style="flex: 1; margin: 0;">
+                                <button type="button" id="toggle-key-visibility" data-i18n="btn_show" style="padding: 14px 20px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.05); color: var(--text-sec); border-radius: 8px; cursor: pointer; transition: all 0.3s; height: 50px;">显示</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label style="color: var(--text-sec);" data-i18n="lbl_model">LANGUAGE MODEL | 模型选择</label>
+                            <select id="settings-model" class="dark-input" style="margin-top: 8px;">
+                                <option value="gpt-4.1">GPT-4.1 (Default)</option>
+                                <option value="gpt-4.1-mini">GPT-4.1 Mini</option>
+                                <option value="gpt-5">GPT-5</option>
+                                <option value="o1">o1</option>
+                                <option value="deepseek-v3">DeepSeek V3</option>
+                                <option value="deepseek-r1">DeepSeek R1</option>
+                                <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="step-card" style="display: flex; flex-direction: column; gap: 20px;">
+                        <h3 style="margin-bottom: 10px; font-weight: 500; font-size: 20px;" data-i18n="set_prefs">偏好设置 / Preferences</h3>
+                        
+                        <div>
+                            <label style="color: var(--text-sec);" data-i18n="lbl_ui_lang">INTERFACE LANGUAGE | 界面语言</label>
+                            <select id="settings-lang" class="dark-input" style="margin-top: 8px;">
+                                <option value="zh">简体中文 (Chinese)</option>
+                                <option value="en">English (English)</option>
+                            </select>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px; letter-spacing: 0.5px;" data-i18n="desc_lang">切换语言后界面将全局适配为所选语言。</p>
+                        </div>
+                    </div>
+
+                    <button class="primary-btn submit-btn" id="save-settings-btn" data-i18n="btn_save_cfg" style="max-width: 300px; display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0; align-self: flex-start;">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">save</span> 保存配置 | SAVE
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 4: 支持 (Support) -->
+            <div id="support" class="tab-content hidden">
+                <div class="left-panel">
+                    <div class="step-card" style="display: flex; flex-direction: column; gap: 24px;">
+                        <h3 style="margin-bottom: 4px; font-weight: 500; font-size: 20px;" data-i18n="sup_kb">使用指南 / Knowledge Base</h3>
+                        
+                        <div style="background: rgba(255,255,255,0.02); padding: 24px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                            <h4 data-i18n="sup_q1" style="color: var(--accent-green); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">tips_and_updates</span>
+                                如何写出更好的补充场景（Scenario）？
+                            </h4>
+                            <p data-i18n="sup_a1" style="color: var(--text-sec); font-size: 14px; line-height: 1.8;">在“场景补充”中，尽量描述您和对方的权力关系...影响程度，这能帮助算法推算出更符合身份语境的极佳回复。</p>
+                        </div>
+
+                        <div style="background: rgba(255,255,255,0.02); padding: 24px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                            <h4 data-i18n="sup_q2" style="color: var(--accent-green); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">analytics</span>
+                                沙盘推演的准确率如何保障？
+                            </h4>
+                            <p data-i18n="sup_a2" style="color: var(--text-sec); font-size: 14px; line-height: 1.8;">沙盘推演基于多维度的大语言模型代理博弈技术...能通过模型推算帮您规避大部分沟通雷区与潜在社交危机。</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card" style="display: flex; flex-direction: column; gap: 16px;">
+                        <h3 style="margin-bottom: 10px; font-weight: 500; font-size: 20px;" data-i18n="sup_sys_status">系统状态 / System Status</h3>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 12px;">
+                            <span style="color: var(--text-muted); font-size: 14px;" data-i18n="sup_engine">当前引擎版本 (Engine Version)</span>
+                            <span style="color: var(--text-sec); font-size: 14px; font-family: monospace;">Algorithm v2.4 (Stable)</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding-bottom: 12px;">
+                            <span style="color: var(--text-muted); font-size: 14px;" data-i18n="sup_conn">服务器连接 (Server Connectivity)</span>
+                            <span data-i18n="sup_op" style="color: var(--accent-green); font-size: 14px; display: flex; align-items: center; gap: 6px;">
+                                <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent-green); display: inline-block;"></span>
+                                正常运行中 (Operational)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        </div> <!-- End of main-content-area -->
+    </div>
+
+    <!-- 加载动画 -->
+    <div id="loading-overlay" class="hidden">
+        <div class="spinner"></div>
+        <p style="font-family: 'Space Grotesk', sans-serif; letter-spacing: 2px;" data-i18n="loading_text">CURATOR AI 运作中...</p>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

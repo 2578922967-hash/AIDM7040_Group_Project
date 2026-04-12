@@ -1,4 +1,6 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 import os
 import json
 import requests
@@ -12,6 +14,14 @@ from prompts import get_instant_reply_prompt, get_sandbox_simulation_prompt
 load_dotenv(override=True)
 
 app = FastAPI(title="High-EQ Reply Assistant API", description="AI沟通助手项目核心后端接口")
+
+
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_DIR = os.path.join(BASE_DIR, "static")
+
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
 
 # ================================
 # 核心通信模块：统一封装对 HKBU API 的请求
@@ -53,7 +63,7 @@ def call_hkbu_api(system_prompt: str, user_message: str, api_key: str = None, mo
             {"role": "user", "content": user_message}
         ],
         "temperature": temperature,
-        "max_tokens": 2000,
+        "max_tokens": 6000,
         "top_p": 0.95
     }
     
@@ -65,15 +75,32 @@ def call_hkbu_api(system_prompt: str, user_message: str, api_key: str = None, mo
 
 def parse_json_response(raw_text: str):
     """鲁棒性：清洗并解析大模型返回的 JSON"""
-    cleaned = raw_text.strip()
-    if cleaned.startswith("```json"):
-        cleaned = cleaned[7:]
-    if cleaned.startswith("```"):
-        cleaned = cleaned[3:]
-    if cleaned.endswith("```"):
-        cleaned = cleaned[:-3]
-    # strict=False 允许处理大模型在 JSON 字符串里强行换行（\n）引发的控制字符报错
-    return json.loads(cleaned.strip(), strict=False)
+    import re
+    import json
+    
+    # 1. 优先尝试精准匹配 Markdown ```json ... ``` 代码块内的内容
+    md_match = re.search(r'```(?:json)?\s*(\{.*?\})\s*```', raw_text, re.DOTALL | re.IGNORECASE)
+    if md_match:
+        try:
+            return json.loads(md_match.group(1), strict=False)
+        except:
+            pass
+
+    # 2. 如果没有 markdown 块，过滤掉已闭合的 <think>...</think>
+    cleaned = re.sub(r'<think>.*?</think>', '', raw_text, flags=re.DOTALL)
+    
+    # 3. 找到全文最外层的花括号
+    start_idx = cleaned.find('{')
+    end_idx = cleaned.rfind('}')
+    
+    if start_idx != -1 and end_idx != -1 and end_idx >= start_idx:
+        json_str = cleaned[start_idx:end_idx+1]
+        try:
+            return json.loads(json_str, strict=False)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"JSON 格式格式有误: {str(e)}\n提取的文本片段: {json_str[:200]}...")
+
+    raise ValueError("在大模型的返回结果中没有找到任何有效的 {...} 数据。可能是回答被截断。")
 
 
 # ================================
@@ -100,7 +127,7 @@ class SandboxRequest(BaseModel):
 # ================================
 @app.get("/")
 def read_root():
-    return {"status": "ok", "message": "High-EQ Assistant FastAPI is running!"}
+    return FileResponse(os.path.join(STATIC_DIR, "index.html"))
 
 @app.post("/api/instant-reply")
 async def instant_reply(req: InstantReplyRequest):
