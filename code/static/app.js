@@ -293,8 +293,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.head.appendChild(styleEl);
         }
         styleEl.innerHTML = `
-            html, body, p, span, div, input, textarea, select, button { font-size: ${size}px !important; }
-            h1 { font-size: ${parseInt(size) * 2}px !important; }
+            html, body, p, span:not(.material-symbols-outlined), div, input, textarea, select, button { font-size: ${size}px !important; }
+            h1 { font-size: ${parseInt(size) * 1.8}px !important; }
             h2 { font-size: ${parseInt(size) * 1.5}px !important; }
             h3 { font-size: ${parseInt(size) * 1.17}px !important; }
         `;
