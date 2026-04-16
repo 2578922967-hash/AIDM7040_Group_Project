@@ -48,6 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
             "set_prefs": "偏好设置 / Preferences",
             "lbl_ui_lang": "INTERFACE LANGUAGE | 界面语言",
             "desc_lang": "切换语言后界面将全局适配为所选语言 (The interface will globally adapt to the selected language).",
+            "lbl_font_size": "GLOBAL FONT SIZE | 全局字体大小",
+            "desc_font_size": "调节滑块动态放大或缩小界面中的文本字号 (Adjust the slider to scale global text size).",
             "btn_save_cfg": " 保存配置 | SAVE",
             "sup_kb": "使用指南 / Knowledge Base",
             "sup_q1": "如何写出更好的补充场景（Scenario）？",
@@ -106,6 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
             "set_prefs": "Preferences",
             "lbl_ui_lang": "INTERFACE LANGUAGE",
             "desc_lang": "The interface will globally adapt to the selected language.",
+            "lbl_font_size": "GLOBAL FONT SIZE",
+            "desc_font_size": "Adjust the slider to scale global text size.",
             "btn_save_cfg": " SAVE CONFIGURATION",
             "sup_kb": "Knowledge Base",
             "sup_q1": "How to write a better Dialogue Scenario?",
@@ -276,6 +280,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveSettingsBtn = document.getElementById('save-settings-btn');
     const setModelInput = document.getElementById('settings-model');
     const setLangInput = document.getElementById('settings-lang');
+
+    // Font Size Logic
+    const setFontSizeInput = document.getElementById('settings-font-size');
+    const fontSizeVal = document.getElementById('font-size-val');
+
+    function applyFontSize(size) {
+        let styleEl = document.getElementById('dynamic-font-size-style');
+        if (!styleEl) {
+            styleEl = document.createElement('style');
+            styleEl.id = 'dynamic-font-size-style';
+            document.head.appendChild(styleEl);
+        }
+        styleEl.innerHTML = `
+            html, body, p, span, div, input, textarea, select, button { font-size: ${size}px !important; }
+            h1 { font-size: ${parseInt(size) * 2}px !important; }
+            h2 { font-size: ${parseInt(size) * 1.5}px !important; }
+            h3 { font-size: ${parseInt(size) * 1.17}px !important; }
+        `;
+    }
+
+    const savedFontSize = localStorage.getItem('curator_font_size') || '16';
+    if(setFontSizeInput && fontSizeVal) {
+        setFontSizeInput.value = savedFontSize;
+        fontSizeVal.textContent = savedFontSize + 'px';
+        applyFontSize(savedFontSize);
+        
+        setFontSizeInput.addEventListener('input', (e) => {
+            const size = e.target.value;
+            fontSizeVal.textContent = size + 'px';
+            applyFontSize(size);
+            localStorage.setItem('curator_font_size', size);
+        });
+    } else {
+        // Apply even if not on settings page (on load)
+        applyFontSize(savedFontSize);
+    }
 
     if (toggleKeyVisibilityBtn && setApiKeyInput) {
         toggleKeyVisibilityBtn.addEventListener('click', () => {
