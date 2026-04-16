@@ -98,6 +98,22 @@ with st.sidebar:
         ["gpt-4.1", "gpt-4.1-mini", "gpt-5", "o1", "deepseek-v3", "deepseek-r1", "gemini-2.5-pro", "qwen3-max"],
         index=0
     )
+    
+    font_size = st.slider("调节全局字体大小 (px)", min_value=12, max_value=36, value=16, step=1)
+    
+    st.markdown(f"""
+        <style>
+        /* 控制普通文本、列表、Markdown 和输入框的字体大小 */
+        html, body, p, li, span, div, input, textarea, select {{
+            font-size: {font_size}px !important;
+        }}
+        /* 避免影响到标题，可以将标题相对缩放或保持原样，此处理论上不强制覆盖 h1/h2 除非他们是 span 的子元素 */
+        h1 {{ font-size: {font_size * 2}px !important; }}
+        h2 {{ font-size: {font_size * 1.5}px !important; }}
+        h3 {{ font-size: {font_size * 1.17}px !important; }}
+        </style>
+    """, unsafe_allow_html=True)
+
     st.sidebar.markdown("---")
     st.sidebar.success("✅ 单文件部署版本，直接向 API 发起请求，无需单独启动本地后端。")
 
