@@ -10,6 +10,22 @@
     --accent-green: #8BD6AF;
     --border-color: rgba(255, 255, 255, 0.05);
     --border-highlight: rgba(63, 73, 67, 0.5);
+    --hover-bg: rgba(255, 255, 255, 0.05);
+    --slider-bg: #2a2a2a;
+}
+
+body.light-mode {
+    --bg-main: #F4F4F4;
+    --bg-surface: #FFFFFF;
+    --bg-darker: #EAEAEA;
+    --text-primary: #1A1A1A;
+    --text-sec: #5E5A54;
+    --text-muted: #79837C;
+    --accent-green: #3CA374;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --border-highlight: rgba(63, 73, 67, 0.2);
+    --hover-bg: rgba(0, 0, 0, 0.05);
+    --slider-bg: #e0e0e0;
 }
 
 * {
@@ -77,7 +93,7 @@ body {
     width: 288px;
     min-width: 288px;
     height: 100vh;
-    background: rgba(10, 10, 10, 0.8);
+    background: var(--bg-surface);
     backdrop-filter: blur(20px);
     border-right: 1px solid var(--border-color);
     position: sticky;
@@ -108,7 +124,7 @@ body {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: #111;
+    background: var(--bg-main);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -126,7 +142,7 @@ body {
 .logo-text p {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 10px;
-    color: rgba(207, 197, 182, 0.5);
+    color: var(--text-sec);
     text-transform: uppercase;
     letter-spacing: 0.2em;
     margin-top: 6px;
@@ -145,7 +161,7 @@ body {
     gap: 16px;
     padding: 14px 20px;
     border-radius: 12px;
-    color: rgba(207, 197, 182, 0.6);
+    color: var(--text-sec);
     cursor: pointer;
     transition: all 0.3s ease;
     border: 1px solid transparent;
@@ -153,12 +169,12 @@ body {
 
 .nav-item:hover {
     color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--hover-bg);
 }
 
 .nav-item.active {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
+    background: var(--hover-bg);
+    border-color: var(--border-color);
     color: var(--text-primary);
 }
 
@@ -209,7 +225,7 @@ body {
     justify-content: center;
 }
 .login-card {
-    background: rgba(28, 27, 27, 0.4);
+    background: var(--bg-surface);
     border: 1px solid var(--border-color);
     backdrop-filter: blur(12px);
     border-radius: 12px;
@@ -230,8 +246,8 @@ body {
     top: 0;
     width: 320px;
     height: 100%;
-    background: #1C1B1B;
-    background-image: linear-gradient(270deg, rgba(14, 14, 14, 0) 0%, rgba(14, 14, 14, 0.8) 50%, #0E0E0E 100%);
+    background: var(--bg-surface);
+    background-image: linear-gradient(270deg, transparent 0%, var(--hover-bg) 50%, var(--bg-main) 100%);
     opacity: 0.3;
     z-index: 1;
 }
@@ -296,7 +312,7 @@ textarea {
 }
 
 input, textarea, select {
-    background: #0E0E0E;
+    background: var(--bg-main);
 }
 
 /* 按钮 */
@@ -320,7 +336,7 @@ input, textarea, select {
 }
 .help-text {
     font-size: 12px;
-    color: rgba(207, 197, 182, 0.6);
+    color: var(--text-sec);
     text-align: center;
     cursor: pointer;
 }
@@ -340,7 +356,7 @@ input, textarea, select {
     align-items: flex-end;
     margin-bottom: 40px;
     padding-bottom: 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid var(--border-color);
 }
 .app-header h1 {
     font-family: 'Inter', sans-serif;
@@ -539,7 +555,7 @@ input, textarea, select {
     -webkit-appearance: none;
     width: 100%;
     height: 4px;
-    background: #2a2a2a;
+    background: var(--slider-bg);
     border-radius: 4px;
     outline: none;
     transition: background 0.3s;
@@ -572,7 +588,7 @@ input, textarea, select {
 
 /* 历史记录 */
 .history-card {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-surface);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 16px;
@@ -582,7 +598,7 @@ input, textarea, select {
     flex-shrink: 0;
 }
 .history-card:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--hover-bg);
     transform: translateY(-2px);
     border-color: var(--accent-green);
 }

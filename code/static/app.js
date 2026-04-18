@@ -13,8 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
         zh: {
             "nav_reply": "即时高情商回复",
             "nav_sandbox": "深度沙盘演推",
-            "nav_setting": "SETTING",
-            "nav_support": "SUPPORT",
+            "nav_setting": "系统设置",
+            "nav_support": "支持文档",
+            "nav_theme_light": "白天模式",
+            "nav_theme_dark": "夜间模式",
             "h_reply_title": "即时高情商回复",
             "h_reply_sub": "通过AI语义引擎精准分析对话语境，为您提供体面且极具张力的社交回应方案。",
             "h_sandbox_title": "深度沙盘演推",
@@ -73,8 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
         en: {
             "nav_reply": "Instant EQ Reply",
             "nav_sandbox": "Sandbox Simulation",
-            "nav_setting": "SETTING",
+            "nav_setting": "SETTINGS",
             "nav_support": "SUPPORT",
+            "nav_theme_light": "Light Mode",
+            "nav_theme_dark": "Dark Mode",
             "h_reply_title": "Instant EQ Reply",
             "h_reply_sub": "Analyze dialog contexts via AI semantic engine to craft decent and compelling social responses.",
             "h_sandbox_title": "Deep Sandbox Simulation",
@@ -627,6 +631,50 @@ document.addEventListener('DOMContentLoaded', () => {
             hideLoading();
             alert("请求失败，请确保后端服务正常运行：" + e);
         }
+    });
+
+    // --- Feature 3: Theme Toggle ---
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeLabel = document.getElementById('theme-label');
+    
+    function updateThemeText(isLight) {
+        const currentLang = localStorage.getItem('curator_lang') || 'zh';
+        const dict = i18n[currentLang] || i18n['zh'];
+        if (isLight) {
+            themeIcon.innerText = 'dark_mode';
+            themeLabel.innerText = dict['nav_theme_dark'] || '夜间模式';
+        } else {
+            themeIcon.innerText = 'light_mode';
+            themeLabel.innerText = dict['nav_theme_light'] || '白天模式';
+        }
+    }
+    
+    if (themeToggleBtn) {
+        // Check local storage for theme
+        const currentTheme = localStorage.getItem('curator_theme');
+        const isLightStart = currentTheme === 'light';
+        if (isLightStart) {
+            document.body.classList.add('light-mode');
+        }
+        updateThemeText(isLightStart);
+        
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            localStorage.setItem('curator_theme', isLight ? 'light' : 'dark');
+            updateThemeText(isLight);
+        });
+    }
+
+    // Subscribe to language changes so theme toggle text updates
+    document.getElementById('settings-lang').addEventListener('change', (e) => {
+        setTimeout(() => {
+            if (themeToggleBtn) {
+                const isLight = document.body.classList.contains('light-mode');
+                updateThemeText(isLight);
+            }
+        }, 50); // slight delay to allow normal i18n change
     });
 
 });

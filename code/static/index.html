@@ -46,8 +46,8 @@
             </div>
         </div>
         <!-- 侧边栏装饰 -->
-        <div style="width: 320px; height: 100vh; background: #1C1B1B; position: absolute; right: 0; top: 0; opacity: 0.3;">
-            <div style="background: linear-gradient(270deg, rgba(14, 14, 14, 0) 0%, rgba(14, 14, 14, 0.8) 50%, #0E0E0E 100%); width: 100%; height: 100%;"></div>
+        <div style="width: 320px; height: 100vh; background: var(--bg-surface); position: absolute; right: 0; top: 0; opacity: 0.3;">
+            <div style="background: linear-gradient(270deg, transparent 0%, var(--hover-bg) 50%, var(--bg-main) 100%); width: 100%; height: 100%;"></div>
         </div>
     </div>
 
@@ -81,11 +81,15 @@
             <div class="nav-footer">
                 <a class="nav-item tab-btn" data-target="settings">
                     <span class="material-symbols-outlined nav-icon">settings</span>
-                    <span class="nav-label" data-i18n="nav_setting">SETTING</span>
+                    <span class="nav-label" data-i18n="nav_setting">系统设置</span>
                 </a>
                 <a class="nav-item tab-btn" data-target="support">
                     <span class="material-symbols-outlined nav-icon">help</span>
-                    <span class="nav-label" data-i18n="nav_support">SUPPORT</span>
+                    <span class="nav-label" data-i18n="nav_support">支持文档</span>
+                </a>
+                <a class="nav-item" id="theme-toggle">
+                    <span class="material-symbols-outlined nav-icon" id="theme-icon">light_mode</span>
+                    <span class="nav-label" id="theme-label" data-i18n="nav_theme_light">白天模式</span>
                 </a>
             </div>
         </aside>
@@ -248,7 +252,7 @@
                             <label style="color: var(--text-sec);" data-i18n="lbl_api_key">API KEY | 访问密钥</label>
                             <div style="display: flex; gap: 12px; align-items: center; margin-top: 8px;">
                                 <input type="password" id="settings-api-key" placeholder="sk-..." class="dark-input" style="flex: 1; margin: 0;">
-                                <button type="button" id="toggle-key-visibility" data-i18n="btn_show" style="padding: 14px 20px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.05); color: var(--text-sec); border-radius: 8px; cursor: pointer; transition: all 0.3s; height: 50px;">显示</button>
+                                <button type="button" id="toggle-key-visibility" data-i18n="btn_show" style="padding: 14px 20px; border: 1px solid var(--border-color); background: var(--hover-bg); color: var(--text-sec); border-radius: 8px; cursor: pointer; transition: all 0.3s; height: 50px;">显示</button>
                             </div>
                         </div>
 
