@@ -682,7 +682,17 @@ input, textarea, select {
     }
     
     .nav-footer {
-        display: none; /* 手机端可隐藏底部设置/帮助，或移动到汉堡菜单 */
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 8px;
+        margin-top: 8px;
+        padding-bottom: 8px;
+    }
+    
+    .nav-footer .nav-item {
+        white-space: nowrap;
+        padding: 10px 16px;
     }
 
     /* 恢复主内容区的宽度和内边距 */
