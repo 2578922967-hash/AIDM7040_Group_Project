@@ -12,6 +12,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const i18n = {
         zh: {
             "nav_reply": "即时高情商回复",
+
+            "lbl_tone_nuance": "Tone Nuance / 语气微调",
+            "tone_wit": "机智度 (Wit)",
+            "tone_diplomacy": "委婉度 (Diplomacy)",
+            "tone_directness": "直率度 (Directness)",
+            "tone_empathy": "共情度 (Empathy)",
+            "sb_h1": "⚡ 核心漏洞",
+            "sb_h2": "💥 隐患危机（最坏结果）",
+            "sb_h3": "🛡️ 优化方向",
+            "sb_h4": "👑 大师级话术建议",
             "nav_sandbox": "深度沙盘演推",
             "nav_setting": "系统设置",
             "nav_support": "支持文档",
@@ -74,6 +84,16 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         en: {
             "nav_reply": "Instant EQ Reply",
+
+            "lbl_tone_nuance": "Tone Nuance",
+            "tone_wit": "Wit",
+            "tone_diplomacy": "Diplomacy",
+            "tone_directness": "Directness",
+            "tone_empathy": "Empathy",
+            "sb_h1": "⚡ Core Vulnerability",
+            "sb_h2": "💥 Potential Crisis (Worst Outcome)",
+            "sb_h3": "🛡️ Optimization Strategy",
+            "sb_h4": "👑 Master-level Script Suggestion",
             "nav_sandbox": "Sandbox Simulation",
             "nav_setting": "SETTINGS",
             "nav_support": "SUPPORT",
@@ -622,25 +642,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 resultsArea.classList.remove('hidden');
                 
                 // Formatted display
-                const outcome = rd.step_4_outcome ? rd.step_4_outcome.category + " - " + rd.step_4_outcome.brief_reason : "N/A";
-                const masterScript = rd.step_6_better_scripts ? (rd.step_6_better_scripts.professional_firm || rd.step_6_better_scripts.witty_defuse || rd.step_6_better_scripts.empathetic_guidance) : "N/A";
+                                // get correct language terms for sandbox headers
+                const currentLang = localStorage.getItem('curator_lang') || 'en';
+                const sbd = i18n[currentLang] || i18n['zh'];
+                const naStr = currentLang === 'en' ? "N/A" : "无";
+                const displayOutcome = rd.step_4_outcome ? rd.step_4_outcome.category + " - " + rd.step_4_outcome.brief_reason : naStr;
+                const displayMasterScript = rd.step_6_better_scripts ? (rd.step_6_better_scripts.professional_firm || rd.step_6_better_scripts.witty_defuse || rd.step_6_better_scripts.empathetic_guidance) : naStr;
 
                 document.getElementById('sandbox-content').innerHTML = `
                     <div style="margin-bottom: 16px;">
-                        <h4 style="color: var(--accent-green); margin-bottom: 4px;">⚡ Core Vulnerability</h4>
-                        <p style="color: var(--text-sec);">${rd.step_1_hidden_subtext || "N/A"}</p>
+                        <h4 style="color: var(--accent-green); margin-bottom: 4px;">${sbd['sb_h1']}</h4>
+                        <p style="color: var(--text-sec);">${rd.step_1_hidden_subtext || naStr}</p>
                     </div>
                     <div style="margin-bottom: 16px;">
-                        <h4 style="color: #ff6b6b; margin-bottom: 4px;">💥 Potential Crisis (Worst Outcome)</h4>
-                        <p style="color: var(--text-sec);">${outcome}</p>
+                        <h4 style="color: #ff6b6b; margin-bottom: 4px;">${sbd['sb_h2']}</h4>
+                        <p style="color: var(--text-sec);">${displayOutcome}</p>
                     </div>
                     <div style="margin-bottom: 16px;">
-                        <h4 style="color: #4dabf7; margin-bottom: 4px;">🛡️ Optimization Strategy</h4>
-                        <p style="color: var(--text-sec);">${rd.step_5_eq_strategy || "N/A"}</p>
+                        <h4 style="color: #4dabf7; margin-bottom: 4px;">${sbd['sb_h3']}</h4>
+                        <p style="color: var(--text-sec);">${rd.step_5_eq_strategy || naStr}</p>
                     </div>
                     <div style="margin-bottom: 16px; background: var(--bg-main); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color);">
-                        <h4 style="color: var(--text-primary); margin-bottom: 8px;">👑 Master-level Script Suggestion</h4>
-                        <p style="color: var(--text-sec); font-style: italic;">"${masterScript}"</p>
+                        <h4 style="color: var(--text-primary); margin-bottom: 8px;">${sbd['sb_h4']}</h4>
+                        <p style="color: var(--text-sec); font-style: italic;">"${displayMasterScript}"</p>
                     </div>
                 `;
             } else {
