@@ -462,8 +462,27 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const context = document.getElementById('reply-context').value.trim();
         let tone = document.getElementById('reply-tone').value;
-        if (tone === 'custom') {
-            tone = `自定义微调语气 => 机智度:${nuanceSliders.wit.value}%, 外交委婉度:${nuanceSliders.diplomacy.value}%, 直率度:${nuanceSliders.directness.value}%, 共情度:${nuanceSliders.empathy.value}%`;
+        const currentLang = localStorage.getItem('curator_lang') || 'en';
+        
+        // Translate tone for LLM if in English mode
+        if (currentLang === 'en') {
+            const enToneMap = {
+                '专业严谨': 'Professional & Formal',
+                '温和委婉': 'Gentle & Tactful',
+                '真诚坦率': 'Sincere & Direct',
+                '机智幽默': 'Witty & Humorous',
+                '不卑不亢': 'Neither humble nor overbearing',
+                '阴阳怪气': 'Sarcastic & Aggressive'
+            };
+            if (tone === 'custom') {
+                tone = `Custom fine-tuned tone => Wit:${nuanceSliders.wit.value}%, Diplomacy:${nuanceSliders.diplomacy.value}%, Directness:${nuanceSliders.directness.value}%, Empathy:${nuanceSliders.empathy.value}%`;
+            } else if (enToneMap[tone]) {
+                tone = enToneMap[tone];
+            }
+        } else {
+            if (tone === 'custom') {
+                tone = `自定义微调语气 => 机智度:${nuanceSliders.wit.value}%, 外交委婉度:${nuanceSliders.diplomacy.value}%, 直率度:${nuanceSliders.directness.value}%, 共情度:${nuanceSliders.empathy.value}%`;
+            }
         }
 
         showLoading();
@@ -603,24 +622,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 resultsArea.classList.remove('hidden');
                 
                 // Formatted display
-                const outcome = rd.step_4_outcome ? rd.step_4_outcome.category + " - " + rd.step_4_outcome.brief_reason : "无";
-                const masterScript = rd.step_6_better_scripts ? (rd.step_6_better_scripts.professional_firm || rd.step_6_better_scripts.witty_defuse || rd.step_6_better_scripts.empathetic_guidance) : "无";
+                const outcome = rd.step_4_outcome ? rd.step_4_outcome.category + " - " + rd.step_4_outcome.brief_reason : "N/A";
+                const masterScript = rd.step_6_better_scripts ? (rd.step_6_better_scripts.professional_firm || rd.step_6_better_scripts.witty_defuse || rd.step_6_better_scripts.empathetic_guidance) : "N/A";
 
                 document.getElementById('sandbox-content').innerHTML = `
                     <div style="margin-bottom: 16px;">
-                        <h4 style="color: var(--accent-green); margin-bottom: 4px;">⚡ 核心漏洞</h4>
-                        <p style="color: var(--text-sec);">${rd.step_1_hidden_subtext || "无"}</p>
+                        <h4 style="color: var(--accent-green); margin-bottom: 4px;">⚡ Core Vulnerability</h4>
+                        <p style="color: var(--text-sec);">${rd.step_1_hidden_subtext || "N/A"}</p>
                     </div>
                     <div style="margin-bottom: 16px;">
-                        <h4 style="color: #ff6b6b; margin-bottom: 4px;">💥 隐患危机（最坏结果）</h4>
+                        <h4 style="color: #ff6b6b; margin-bottom: 4px;">💥 Potential Crisis (Worst Outcome)</h4>
                         <p style="color: var(--text-sec);">${outcome}</p>
                     </div>
                     <div style="margin-bottom: 16px;">
-                        <h4 style="color: #4dabf7; margin-bottom: 4px;">🛡️ 优化方向</h4>
-                        <p style="color: var(--text-sec);">${rd.step_5_eq_strategy || "无"}</p>
+                        <h4 style="color: #4dabf7; margin-bottom: 4px;">🛡️ Optimization Strategy</h4>
+                        <p style="color: var(--text-sec);">${rd.step_5_eq_strategy || "N/A"}</p>
                     </div>
                     <div style="margin-bottom: 16px; background: var(--bg-main); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color);">
-                        <h4 style="color: var(--text-primary); margin-bottom: 8px;">👑 大师级话术建议</h4>
+                        <h4 style="color: var(--text-primary); margin-bottom: 8px;">👑 Master-level Script Suggestion</h4>
                         <p style="color: var(--text-sec); font-style: italic;">"${masterScript}"</p>
                     </div>
                 `;

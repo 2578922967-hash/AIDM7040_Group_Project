@@ -24,7 +24,7 @@ def get_sandbox_simulation_prompt(scenario, my_role, target_role, my_plan):
         "对方追击或冷战：..."
     ],
     "step_4_outcome": {{
-        "category": "必须在以下分类中选择最匹配的一项：[激化矛盾, 妥协吃亏, 僵持冷战, 勉强促成, 完美解决]",
+        "category": "必须在以下分类中选择最匹配的一项：[激化矛盾, 妥协吃亏, 僵持冷战, 勉强促成, 完美解决] (若输入为英文则使用：[Escalate Conflict, Compromise/Lose Out, Stalemate/Cold War, Barely Succeeded, Perfect Resolution])",
         "brief_reason": "只用一句话简述导向这个糟糕或完美结果的核心原因。"
     }},
     "step_5_eq_strategy": "【高情商破局策略】底层逻辑指导：在这种场景下，你应该 首先释放什么信号（如共情、示弱），随后如何确立边界（立规矩、谈利益）。",
@@ -41,7 +41,7 @@ def get_instant_reply_prompt(message, tone, context=""):
     """
     生成“即时高情商回复”模块的 System Prompt
     """
-    is_attack_mode = "阴阳怪气" in tone or "攻击" in tone
+    is_attack_mode = "阴阳怪气" in tone or "攻击" in tone or "Sarcastic" in tone or "Aggressive" in tone
     
     if is_attack_mode:
         tone_instruction = """3. **火力全开（阴阳怪气/纯攻击）**：用户明确要求了阴阳怪气和纯攻击。你需要彻底抛弃高情商和体面，化身为极其尖酸刻薄、阴阳怪气、极具攻击性且字字珠玑的“互联网喷子”。用最礼貌无辜的文字说出最扎心的话，或者直接火力全开嘲讽对方的逻辑或行为，不带脏字但极具破防效果。
@@ -49,14 +49,14 @@ def get_instant_reply_prompt(message, tone, context=""):
    - 方案A（含沙射影）：表面附和感谢、实则暗讽，阴阳怪气拉满。
    - 方案B（智商压制）：带着极强的优越感，用降维打击的方式嘲讽对方的无知或离谱。
    - 方案C（直球对线）：撕破脸皮，字字珠玑直接怒怼，不留任何情面。"""
-        explanation_guide = "简短分析（50个字以内）为什么这套连招能精准破防并且造成最大的心理暴击。"
+        explanation_guide = "简短分析（50个字以内）为什么这套连招能精准破防并且 造成最大的心理暴击。(Please provide the analysis in the same language as the user's input/English if input is English)"
     else:
         tone_instruction = """3. **摒弃阴阳怪气**：无论是哪种语气，核心目标都是“高情商地解决问题”和“维护体面” 。拒绝被动攻击（Passive-aggressive）、嘲讽或抬杠。即使是拒绝或指出对方错误，也要做到“温柔而坚定”、“不卑不亢”。
 4. 提供 3 条不同侧重点的候选回复（尽量符合真实的聊天习惯，字数适中）：
    - 方案A：直接回应核心诉求，简洁明了，适合快节奏沟通。
    - 方案B：侧重情绪价值，照顾对方感受，适合需要维护关系的场景。
    - 方案C：侧重边界感，委婉但清晰地表达自己的立场/拒绝/规矩。"""
-        explanation_guide = f"简短分析（50个字以内）为什么这种回复方式符合【{tone}】的特点，并且能体面地达成高情商沟通的目标。"
+        explanation_guide = f"简短分析（50个字以内）为什么这种回复方式符合【{tone}】的特点，并且能体面地达成高情商沟通的目标。(Please provide the analysis in the same language as the user's input/English if input is English)"
 
     prompt = f"""你现在是一位资深的沟通艺术专家与公共关系顾问。你的任务是帮助用户应对各种棘手的消息，提供贴合当前风格设定的回复方案，彻底摒弃生硬的AI腔调，展现出真实的“人在沟通”的温度与分寸感。
 
