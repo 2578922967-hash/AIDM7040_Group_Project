@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Apply language dynamically
     function applyLanguage(lang) {
-        const dict = i18n[lang] || i18n['zh'];
+        const dict = i18n[lang] || i18n['en'];
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (dict[key]) {
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initialize UI language on load
-    const currentLang = localStorage.getItem('curator_lang') || 'zh';
+    const currentLang = localStorage.getItem('curator_lang') || 'en';
     applyLanguage(currentLang);
 
     // Load saved API key
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             // Update Title dynamically based on NING's design
-            const dict = i18n[localStorage.getItem('curator_lang') || 'zh'] || i18n['zh'];
+            const dict = i18n[localStorage.getItem('curator_lang') || 'en'] || i18n['zh'];
             if(target === 'instant-reply') {
                 headerTitle.textContent = dict['h_reply_title'];
                 headerSubtitle.textContent = dict['h_reply_sub'];
@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Initialize settings fields with current values
                 document.getElementById('settings-api-key').value = apiKeyInput.value.trim();
                 document.getElementById('settings-model').value = modelSelect.value;
-                document.getElementById('settings-lang').value = localStorage.getItem('curator_lang') || 'zh';
+                document.getElementById('settings-lang').value = localStorage.getItem('curator_lang') || 'en';
             } else if (target === 'support') {
                 headerTitle.textContent = dict['h_support_title'];
                 headerSubtitle.textContent = dict['h_support_sub'];
@@ -639,7 +639,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeLabel = document.getElementById('theme-label');
     
     function updateThemeText(isLight) {
-        const currentLang = localStorage.getItem('curator_lang') || 'zh';
+        const currentLang = localStorage.getItem('curator_lang') || 'en';
         const dict = i18n[currentLang] || i18n['zh'];
         if (isLight) {
             themeIcon.innerText = 'dark_mode';

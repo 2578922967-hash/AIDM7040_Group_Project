@@ -16,12 +16,12 @@
     <div id="login-view" class="view-container active" style="flex-direction: row; padding: 0;">
         <div style="flex: 1; display: flex; align-items: center; justify-content: center; z-index: 5;">
             <div class="login-card">
-                <h2 style="font-family: 'Inter', sans-serif;" data-i18n="login_title">会话设置</h2>
-                <p class="subtitle" data-i18n="login_sub">配置你的环境以开启高情商对话</p>
+                <h2 style="font-family: 'Inter', sans-serif;" data-i18n="login_title">Session Setup</h2>
+                <p class="subtitle" data-i18n="login_sub">Configure your environment for high-EQ dialogues</p>
                 
                 <div class="form-group">
                     <label data-i18n="login_api_lbl">API KEY</label>
-                    <input type="password" id="api-key-input" data-i18n="login_api_pl" placeholder="请输入您的 API 密钥">
+                    <input type="password" id="api-key-input" data-i18n="login_api_pl" placeholder="Enter your API Key">
                 </div>
 
                 <div class="form-group">
@@ -37,12 +37,12 @@
                     </select>
                 </div>
 
-                <button class="primary-btn" id="start-session-btn" data-i18n="login_btn">进入策展引擎</button>
-                <p class="help-text" data-i18n="login_help">需要帮助寻找密钥？ 查看文档</p>
+                <button class="primary-btn" id="start-session-btn" data-i18n="login_btn">Enter Curator Engine</button>
+                <p class="help-text" data-i18n="login_help">Need help finding keys? View Documentation</p>
             </div>
             
             <div class="footer">
-                <span data-i18n="login_footer">© 2026 CURATOR AI. 始于克制，成于意图。</span>
+                <span data-i18n="login_footer">© 2026 CURATOR AI.</span>
             </div>
         </div>
         <!-- 侧边栏装饰 -->
@@ -70,26 +70,26 @@
             <nav class="nav-menu">
                 <a class="nav-item tab-btn active" data-target="instant-reply">
                     <span class="material-symbols-outlined nav-icon" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
-                    <span class="nav-label" data-i18n="nav_reply">即时高情商回复</span>
+                    <span class="nav-label" data-i18n="nav_reply">Instant EQ Reply</span>
                 </a>
                 <a class="nav-item tab-btn" data-target="sandbox">
                     <span class="material-symbols-outlined nav-icon">account_tree</span>
-                    <span class="nav-label" data-i18n="nav_sandbox">深度沙盘演推</span>
+                    <span class="nav-label" data-i18n="nav_sandbox">Deep Sandbox Sim</span>
                 </a>
             </nav>
             
             <div class="nav-footer">
                 <a class="nav-item tab-btn" data-target="settings">
                     <span class="material-symbols-outlined nav-icon">settings</span>
-                    <span class="nav-label" data-i18n="nav_setting">系统设置</span>
+                    <span class="nav-label" data-i18n="nav_setting">System Settings</span>
                 </a>
                 <a class="nav-item tab-btn" data-target="support">
                     <span class="material-symbols-outlined nav-icon">help</span>
-                    <span class="nav-label" data-i18n="nav_support">支持文档</span>
+                    <span class="nav-label" data-i18n="nav_support">Support Center</span>
                 </a>
                 <a class="nav-item" id="theme-toggle">
                     <span class="material-symbols-outlined nav-icon" id="theme-icon">light_mode</span>
-                    <span class="nav-label" id="theme-label" data-i18n="nav_theme_light">白天模式</span>
+                    <span class="nav-label" id="theme-label" data-i18n="nav_theme_light">Light Mode</span>
                 </a>
             </div>
         </aside>
@@ -98,8 +98,8 @@
         <div class="main-content-area">
             <header class="app-header">
                 <div>
-                    <h1 id="header-title">即时高情商回复</h1>
-                    <p id="header-subtitle">通过AI语义引擎精准分析对话语境，为您提供体面且极具张力的社交回应方案。</p>
+                    <h1 id="header-title">Instant EQ Reply</h1>
+                    <p id="header-subtitle">Analyze the conversational context precisely using our AI semantic engine, providing decent and compelling social responses.</p>
                 </div>
             </header>
 
@@ -109,56 +109,56 @@
                 <div class="left-panel">
                     <div class="step-card" style="display: flex; flex-direction: column; gap: 20px;">
                         <div>
-                            <label style="color: var(--text-sec);" data-i18n="lbl_in_ctx">INPUT CONTEXT | 上下文</label>
-                            <textarea id="reply-message" data-i18n="pl_recv_msg" placeholder="在此粘贴您收到的消息..." style="margin-top: 8px;"></textarea>
+                            <label style="color: var(--text-sec);" data-i18n="lbl_in_ctx">DIALOGUE CONTEXT</label>
+                            <textarea id="reply-message" data-i18n="pl_recv_msg" placeholder="Paste the message you received here..." style="margin-top: 8px;"></textarea>
                         </div>
                         
                         <div>
-                            <label style="color: var(--text-sec);" data-i18n="lbl_in_scenario">DIALOGUE SCENARIO | 场景补充（选填）</label>
-                            <input type="text" id="reply-context" data-i18n="pl_scenario" placeholder="例如：这是公司群聊 / 她是我相亲对象" class="dark-input" style="margin-top: 8px;">
+                            <label style="color: var(--text-sec);" data-i18n="lbl_in_scenario">DIALOGUE SCENARIO (OPTIONAL)</label>
+                            <input type="text" id="reply-context" data-i18n="pl_scenario" placeholder="e.g., Company group chat / Blind date" class="dark-input" style="margin-top: 8px;">
                         </div>
 
                         <div>
-                            <label style="color: var(--text-sec);" data-i18n="lbl_tone">TONE PREFERENCE | 语气偏好</label>
+                            <label style="color: var(--text-sec);" data-i18n="lbl_tone">TONE PREFERENCE</label>
                             <select id="reply-tone" class="dark-input" style="margin-top: 8px;">
-                                <option value="专业严谨">预设：专业严谨 / Professional</option>
-                                <option value="温和委婉">预设：温和委婉 / Tactful</option>
-                                <option value="真诚坦率">预设：真诚坦率 / Sincere</option>
-                                <option value="机智幽默">预设：机智幽默 / Witty</option>
-                                <option value="不卑不亢">预设：不卑不亢 / Assertive</option>
-                                <option value="阴阳怪气" style="color:#ffb4ab;">火力全开：阴阳怪气 / Sarcastic</option>
-                                <option value="custom" disabled>自定义微调 / Custom</option>
+                                <option value="Professional">Preset: Professional</option>
+                                <option value="Tactful">Preset: Tactful</option>
+                                <option value="Sincere">Preset: Sincere</option>
+                                <option value="Witty & Humorous">Preset: Witty & Humorous</option>
+                                <option value="Assertive">Preset: Assertive</option>
+                                <option value="Sarcastic" style="color:#ffb4ab;">Preset: Sarcastic</option>
+                                <option value="custom" disabled>Custom Nuance</option>
                             </select>
                         </div>
                         
                         <!-- Tone Nuance Sliders -->
                         <div style="margin-top: 8px; padding-top: 24px; border-top: 1px dashed var(--border-color);">
-                            <h4 style="color: var(--text-sec); margin-bottom: 24px; font-style: italic; font-family: 'Newsreader', serif; letter-spacing: 0.05em;" data-i18n="lbl_tone_nuance">Tone Nuance / 语气微调</h4>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: x 24px; row-gap: 20px; column-gap: 40px;">
+                            <h4 style="color: var(--text-sec); margin-bottom: 24px; font-style: italic; font-family: 'Newsreader', serif; letter-spacing: 0.05em;" data-i18n="lbl_tone_nuance">Tone Nuance</h4>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; row-gap: 20px; column-gap: 40px;">
                                 <div>
                                     <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                                        <span style="color: var(--text-sec); font-size: 13px;" data-i18n="tone_wit">机智 (Wit)</span>
+                                        <span style="color: var(--text-sec); font-size: 13px;" data-i18n="tone_wit">Wit</span>
                                         <span id="val-wit" style="color: var(--accent-green); font-size: 13px;">65%</span>
                                     </div>
                                     <input type="range" id="tone-wit" min="0" max="100" value="65" class="nuance-slider">
                                 </div>
                                 <div>
                                     <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                                        <span style="color: var(--text-sec); font-size: 13px;" data-i18n="tone_diplomacy">外交 (Diplomacy)</span>
+                                        <span style="color: var(--text-sec); font-size: 13px;" data-i18n="tone_diplomacy">Diplomacy</span>
                                         <span id="val-diplomacy" style="color: var(--accent-green); font-size: 13px;">80%</span>
                                     </div>
                                     <input type="range" id="tone-diplomacy" min="0" max="100" value="80" class="nuance-slider">
                                 </div>
                                 <div>
                                     <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                                        <span style="color: var(--text-sec); font-size: 13px;" data-i18n="tone_directness">直率 (Directness)</span>
+                                        <span style="color: var(--text-sec); font-size: 13px;" data-i18n="tone_directness">Directness</span>
                                         <span id="val-directness" style="color: var(--accent-green); font-size: 13px;">30%</span>
                                     </div>
                                     <input type="range" id="tone-directness" min="0" max="100" value="30" class="nuance-slider">
                                 </div>
                                 <div>
                                     <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                                        <span style="color: var(--text-sec); font-size: 13px;" data-i18n="tone_empathy">共情 (Empathy)</span>
+                                        <span style="color: var(--text-sec); font-size: 13px;" data-i18n="tone_empathy">Empathy</span>
                                         <span id="val-empathy" style="color: var(--accent-green); font-size: 13px;">90%</span>
                                     </div>
                                     <input type="range" id="tone-empathy" min="0" max="100" value="90" class="nuance-slider">
@@ -167,25 +167,25 @@
                         </div>
                     </div>
 
-                    <button class="primary-btn submit-btn" id="generate-reply-btn" data-i18n="btn_gen_reply">✨ 生成高情商回复 | GENERATE</button>
+                    <button class="primary-btn submit-btn" id="generate-reply-btn" data-i18n="btn_gen_reply">✨ GENERATE EQ REPLY</button>
                 </div>
 
                 <!-- 结果展示区 -->
                 <div class="right-panel">
                     <div id="reply-results" class="results-area hidden">
-                        <h3 data-i18n="result_ai_analyze">AI 分析与破局思路</h3>
+                        <h3 data-i18n="result_ai_analyze">AI Analysis & Breakthrough Strategy</h3>
                         <p id="reply-explanation" style="color: var(--text-sec); line-height: 1.6;"></p>
                         <div class="reply-options">
                             <div class="reply-box">
-                                <h4>方案 A</h4>
+                                <h4>Option A</h4>
                                 <p id="reply-opt-1"></p>
                             </div>
                             <div class="reply-box">
-                                <h4>方案 B</h4>
+                                <h4>Option B</h4>
                                 <p id="reply-opt-2"></p>
                             </div>
                             <div class="reply-box">
-                                <h4>方案 C</h4>
+                                <h4>Option C</h4>
                                 <p id="reply-opt-3"></p>
                             </div>
                         </div>
@@ -195,7 +195,7 @@
                 <!-- 历史反馈面板 (Recent Reflections) -->
                 <div id="recent-reflections-container" style="width: 100%; border-top: 1px solid var(--border-color); padding-top: 32px; display: none;">
                     <h4 style="color: var(--text-sec); letter-spacing: 0.15em; font-size: 11px; font-weight: normal; margin-bottom: 24px; text-transform: uppercase;">
-                        RECENT REFLECTIONS / <span style="opacity: 0.7;">最近的思考</span>
+                        RECENT REFLECTIONS
                     </h4>
                     <div class="history-container-scroll" id="history-scroll-area">
                         <!-- JS将会渲染历史卡片在这里 -->
@@ -209,34 +209,34 @@
                     <div class="step-card" style="display: flex; flex-direction: column; gap: 20px;">
                         
                         <div>
-                            <label style="color: var(--text-sec);" data-i18n="lbl_sb_desc">SCENARIO DESCRIPTION | 场景事件描述</label>
-                            <textarea id="sb-scenario" data-i18n="pl_sb_desc" placeholder="描述发生的具体事件背景..." style="margin-top: 8px;"></textarea>
+                            <label style="color: var(--text-sec);" data-i18n="lbl_sb_desc">DIALOGUE SCENARIO</label>
+                            <textarea id="sb-scenario" data-i18n="pl_sb_desc" placeholder="Describe the background context..." style="margin-top: 8px;"></textarea>
                         </div>
 
                         <div class="role-inputs">
                             <div class="half-width">
-                                <label style="color: var(--text-sec);" data-i18n="lbl_sb_my_role">MY ROLE | 我的角色</label>
-                                <input type="text" id="sb-my-role" data-i18n="pl_sb_my_role" placeholder="你在此场景下的身份" style="margin-top: 8px;">
+                                <label style="color: var(--text-sec);" data-i18n="lbl_sb_my_role">MY ROLE</label>
+                                <input type="text" id="sb-my-role" data-i18n="pl_sb_my_role" placeholder="Your identity in this scenario" style="margin-top: 8px;">
                             </div>
                             <div class="half-width">
-                                <label style="color: var(--text-sec);" data-i18n="lbl_sb_target_role">OPPONENT ROLE | 对方角色</label>
-                                <input type="text" id="sb-target-role" data-i18n="pl_sb_target_role" placeholder="对方的性格与身份" style="margin-top: 8px;">
+                                <label style="color: var(--text-sec);" data-i18n="lbl_sb_target_role">OPPONENT ROLE</label>
+                                <input type="text" id="sb-target-role" data-i18n="pl_sb_target_role" placeholder="Opponent's identity and personality" style="margin-top: 8px;">
                             </div>
                         </div>
 
                         <div>
-                            <label style="color: var(--text-sec);" data-i18n="lbl_sb_my_plan">MY INITIAL RESPONSE | 我的拟定应对方案</label>
-                            <textarea id="sb-my-plan" data-i18n="pl_sb_my_plan" placeholder="输入你最直观想说的话或方案..." style="margin-top: 8px;"></textarea>
+                            <label style="color: var(--text-sec);" data-i18n="lbl_sb_my_plan">MY INITIAL RESPONSE</label>
+                            <textarea id="sb-my-plan" data-i18n="pl_sb_my_plan" placeholder="What you intuitively want to say..." style="margin-top: 8px;"></textarea>
                         </div>
 
                     </div>
-                    <button class="primary-btn submit-btn" id="run-sandbox-btn" data-i18n="btn_start_sim">🔮 启动大师沙盘推演 | START SIMULATION</button>
+                    <button class="primary-btn submit-btn" id="run-sandbox-btn" data-i18n="btn_start_sim">🔮 START SIMULATION</button>
                 </div>
 
                 <!-- 结果展示区 -->
                 <div class="right-panel">
                     <div id="sandbox-results" class="results-area hidden">
-                         <h3 style="color: var(--text-primary); margin-bottom: 20px;" data-i18n="result_sb_analyze">推演结果分析</h3>
+                         <h3 style="color: var(--text-primary); margin-bottom: 20px;" data-i18n="result_sb_analyze">Simulation Results Analysis</h3>
                          <!-- JS将渲染在此 -->
                          <div id="sandbox-content"></div>
                     </div>
