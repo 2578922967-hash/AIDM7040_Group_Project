@@ -24,8 +24,8 @@ def get_sandbox_simulation_prompt(scenario, my_role, target_role, my_plan):
         "对方追击或冷战：..."
     ],
     "step_4_outcome": {{
-        "category": "必须在以下分类中选择最匹配的一项：[激化矛盾, 妥协吃亏, 僵持冷战, 勉强促成, 完美解决] (若输入为英文则使用：[Escalate Conflict, Compromise/Lose Out, Stalemate/Cold War, Barely Succeeded, Perfect Resolution])",
-        "brief_reason": "只用一句话简述导向这个糟糕或完美结果的核心原因。"
+        "category": "If user input is English, strictly pick ONE from: [Escalate Conflict, Compromise/Lose Out, Stalemate/Cold War, Barely Succeeded, Perfect Resolution]. 如果输入中文，则选择：[激化矛盾, 妥协吃亏, 僵持冷战, 勉强促成, 完美解决]",
+        "brief_reason": "只用一句话简述导向这个糟糕或完美结果的核心原因。(If input is English, MUST answer in English)."
     }},
     "step_5_eq_strategy": "【高情商破局策略】底层逻辑指导：在这种场景下，你应该 首先释放什么信号（如共情、示弱），随后如何确立边界（立规矩、谈利益）。",
     "step_6_better_scripts": {{
